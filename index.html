@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Registration Form</title>
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500&family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+
+  <!-- Link to external CSS -->
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="container">
+    <!-- Left side Image -->
+    <div class="image-section">
+      <img src="bg5.jpg" alt="Profile">
+    </div>
+
+    <!-- Right side Form -->
+    <form id="registrationform">
+      <h2>Registration</h2>
+
+      <div class="form-group">
+        <label for="name">Name</label>
+        <input type="text" id="name">
+        <span class="error"></span>
+      </div>
+
+      <div class="form-group">
+        <label for="email">E-mail</label>
+        <input type="email" id="email">
+        <span class="error"></span>
+      </div>
+
+      <div class="form-group">
+        <label for="password">Password</label>
+        <input type="password" id="password">
+        <span class="error"></span>
+      </div>
+
+      <button type="submit" id="submitbtn">Submit</button>
+    </form>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
+
