@@ -4,78 +4,76 @@ const emailInput = document.getElementById('email');
 const passwordInput = document.getElementById('password');
 const submitBtn = document.getElementById('submitbtn');
 
-// Create error elements
-const nameError = document.createElement('span');
-nameError.classList.add('error');
-nameInput.parentNode.appendChild(nameError);
+// Helper function to show error
+function showError(input, message) {
+  let error = input.nextElementSibling;
+  if (!error || !error.classList.contains('error')) {
+    error = document.createElement('span');
+    error.classList.add('error');
+    input.parentNode.appendChild(error);
+  }
+  error.textContent = message;
+}
 
-const emailError = document.createElement('span');
-emailError.classList.add('error');
-emailInput.parentNode.appendChild(emailError);
+// Helper function to remove error
+function removeError(input) {
+  let error = input.nextElementSibling;
+  if (error && error.classList.contains('error')) {
+    error.textContent = '';
+  }
+}
 
-const passwordError = document.createElement('span');
-passwordError.classList.add('error');
-passwordInput.parentNode.appendChild(passwordError);
-
-// Validate functions
+// Validation functions
 function validateName() {
   if (nameInput.value.trim() === '') {
-    nameError.textContent = 'Name is required';
+    showError(nameInput, 'Name is required');
     return false;
   } else {
-    nameError.textContent = '';
+    removeError(nameInput);
     return true;
   }
 }
 
 function validateEmail() {
-  const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  const emailPattern = /^[^ ]+@[^ ]+\.[a-z]{2,3}$/;
   if (!emailPattern.test(emailInput.value.trim())) {
-    emailError.textContent = 'Invalid email address';
+    showError(emailInput, 'Invalid email address');
     return false;
   } else {
-    emailError.textContent = '';
+    removeError(emailInput);
     return true;
   }
 }
 
 function validatePassword() {
-  if (passwordInput.value.trim().length < 6) {
-    passwordError.textContent = 'Password must be at least 6 characters';
+  if (passwordInput.value.length < 6) {
+    showError(passwordInput, 'Password must be at least 6 characters');
     return false;
   } else {
-    passwordError.textContent = '';
+    removeError(passwordInput);
     return true;
   }
 }
 
-function validateForm() {
+// Event listeners for real-time validation on focus/blur
+nameInput.addEventListener('blur', validateName);
+emailInput.addEventListener('blur', validateEmail);
+passwordInput.addEventListener('blur', validatePassword);
+
+// Optional: remove error when user starts typing
+nameInput.addEventListener('input', removeError.bind(null, nameInput));
+emailInput.addEventListener('input', removeError.bind(null, emailInput));
+passwordInput.addEventListener('input', removeError.bind(null, passwordInput));
+
+// Form submission
+form.addEventListener('submit', (e) => {
+  e.preventDefault();
   const isNameValid = validateName();
   const isEmailValid = validateEmail();
   const isPasswordValid = validatePassword();
 
-  submitBtn.disabled = !(isNameValid && isEmailValid && isPasswordValid);
-}
-
-// Event listeners for real-time validation
-nameInput.addEventListener('input', validateForm);
-emailInput.addEventListener('input', validateForm);
-passwordInput.addEventListener('input', validateForm);
-
-// Optional: validate on blur as well
-nameInput.addEventListener('blur', validateForm);
-emailInput.addEventListener('blur', validateForm);
-passwordInput.addEventListener('blur', validateForm);
-
-// Validate once when the page loads
-validateForm();
-
-// Handle form submission
-form.addEventListener('submit', function(e) {
-  e.preventDefault();
-  if (validateName() && validateEmail() && validatePassword()) {
-    alert('Form submitted successfully!');
+  if (isNameValid && isEmailValid && isPasswordValid) {
+    alert('Registration Successful!');
     form.reset();
-    validateForm();
   }
 });
